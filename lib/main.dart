@@ -1,4 +1,14 @@
+// ignore_for_file: prefer_const_constructors
+
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'api_call.dart';
+import 'dart:convert' as convert;
+
+import 'package:http/http.dart' as http;
+
+import 'api_parsing/program_api_parsing.dart';
 
 void main() {
   runApp(const MyApp());
@@ -7,21 +17,12 @@ void main() {
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
       theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // Try running your application with "flutter run". You'll see the
-        // application has a blue toolbar. Then, without quitting the app, try
-        // changing the primarySwatch below to Colors.green and then invoke
-        // "hot reload" (press "r" in the console where you ran "flutter run",
-        // or simply save your changes to "hot reload" in a Flutter IDE).
-        // Notice that the counter didn't reset back to zero; the application
-        // is not restarted.
         primarySwatch: Colors.blue,
       ),
       home: const MyHomePage(title: 'Flutter Demo Home Page'),
@@ -32,84 +33,392 @@ class MyApp extends StatelessWidget {
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key, required this.title});
 
-  // This widget is the home page of your application. It is stateful, meaning
-  // that it has a State object (defined below) that contains fields that affect
-  // how it looks.
-
-  // This class is the configuration for the state. It holds the values (in this
-  // case the title) provided by the parent (in this case the App widget) and
-  // used by the build method of the State. Fields in a Widget subclass are
-  // always marked "final".
-
   final String title;
 
   @override
   State<MyHomePage> createState() => _MyHomePageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
+class Choice {
+  const Choice({required this.title, required this.icon});
+  final String title;
+  final IconData icon;
+}
 
-  void _incrementCounter() {
-    setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
-      _counter++;
-    });
+const List<Choice> choices = <Choice>[
+  Choice(title: 'Program', icon: Icons.home),
+  Choice(title: 'Get Help', icon: Icons.help),
+  Choice(title: 'Learn', icon: Icons.book),
+  Choice(title: 'DD Tracker', icon: Icons.phone),
+];
+
+class _MyHomePageState extends State<MyHomePage> {
+  
+  Future<ProgramApiParsing?> getData() async {
+    var url =
+        Uri.parse('https://632017e19f82827dcf24a655.mockapi.io/api/programs');
+    http.Response response = await http.get(url);
+    {
+      if (response.statusCode == 200) {
+        print(response.body);
+        String data = response.body;
+         print("From same class");
+        var decodedData = ProgramApiParsing.fromJson(jsonDecode(response.body));
+        return decodedData;
+      } else {
+        print('Request failed with status: ${response.statusCode}.');
+      }
+    }
+  }
+
+  @override
+  void initState() {
+    print("InitState");
+    ProgramApiCall().getData();
+    getData();
+    print("InitState+++");
+    super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
-    //
-    // The Flutter framework has been optimized to make rerunning build methods
-    // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
     return Scaffold(
       appBar: AppBar(
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
-        title: Text(widget.title),
-      ),
-      body: Center(
-        // Center is a layout widget. It takes a single child and positions it
-        // in the middle of the parent.
-        child: Column(
-          // Column is also a layout widget. It takes a list of children and
-          // arranges them vertically. By default, it sizes itself to fit its
-          // children horizontally, and tries to be as tall as its parent.
-          //
-          // Invoke "debug painting" (press "p" in the console, choose the
-          // "Toggle Debug Paint" action from the Flutter Inspector in Android
-          // Studio, or the "Toggle Debug Paint" command in Visual Studio Code)
-          // to see the wireframe for each widget.
-          //
-          // Column has various properties to control how it sizes itself and
-          // how it positions its children. Here we use mainAxisAlignment to
-          // center the children vertically; the main axis here is the vertical
-          // axis because Columns are vertical (the cross axis would be
-          // horizontal).
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
+        elevation: 0,
+        backgroundColor: Colors.white,
+        leading: const Icon(
+          Icons.menu,
+          color: Colors.grey,
+        ),
+        actions: const [
+          Padding(
+            padding: EdgeInsets.all(8.0),
+            child: Icon(Icons.comment, color: Colors.grey),
+          ),
+          Padding(
+            padding: EdgeInsets.all(8.0),
+            child: Icon(
+              Icons.notifications,
+              color: Colors.grey,
             ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headline4,
+          ),
+        ],
+      ),
+      // ignore: prefer_const_literals_to_create_immutables
+      body: SingleChildScrollView(
+        child: Column(children: [
+          // ignore: prefer_const_constructors
+          SizedBox(
+            height: 20,
+          ),
+          Container(
+            alignment: Alignment.topLeft,
+            margin: EdgeInsets.only(left: 17.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              // ignore: prefer_const_literals_to_create_immutables
+              children: [
+                const Text(
+                  "Hello priya!",
+                  style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black),
+                ),
+                const Text(
+                  "What do you wanna learn today?",
+                  style: TextStyle(
+                      fontSize: 15,
+                      fontWeight: FontWeight.normal,
+                      color: Colors.grey),
+                )
+              ],
+            ),
+          ),
+          SizedBox(
+            height: 20,
+          ),
+          gridViewWidget(),
+          SizedBox(
+            height: 20,
+          ),
+          Container(
+            alignment: Alignment.topLeft,
+            margin: EdgeInsets.fromLTRB(17, 0, 17, 0),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              // ignore: prefer_const_literals_to_create_immutables
+              children: [
+                const Text(
+                  "Programs for you",
+                  style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black),
+                ),
+                Spacer(),
+                const Text(
+                  "View all",
+                  style: TextStyle(
+                      fontSize: 15,
+                      fontWeight: FontWeight.normal,
+                      color: Colors.grey),
+                ),
+                Icon(Icons.arrow_right),
+              ],
+            ),
+          ),
+          horizontalListView(),
+          horizontalListView(),
+          horizontalListView()
+
+          // ListView.builder(
+          //   physics: ScrollPhysics(),
+          //   shrinkWrap: true,
+          //   itemCount: 7,
+          //   itemBuilder: (context, index) {
+          //     // return
+          //     // horizontalListView();
+          //     return horizontalListView();
+          //   },
+          // )
+        ]),
+      ),
+      bottomNavigationBar: BottomNavigationBar(
+          type: BottomNavigationBarType.fixed,
+          backgroundColor: Colors.white,
+          selectedItemColor: Colors.blue,
+          unselectedItemColor: Colors.grey,
+          selectedFontSize: 14,
+          unselectedFontSize: 14,
+          onTap: (value) {
+            // Respond to item press.
+            // ignore: prefer_const_literals_to_create_immutables
+          },
+          items: [
+            BottomNavigationBarItem(
+              label: "Home",
+              icon: Icon(Icons.home),
+            ),
+            BottomNavigationBarItem(
+              label: "Lern",
+              icon: Icon(Icons.library_books),
+            ),
+            BottomNavigationBarItem(
+              label: "Hub",
+              icon: Icon(Icons.menu),
+            ),
+            BottomNavigationBarItem(
+              label: "Chat",
+              icon: Icon(Icons.chat),
+            ),
+            BottomNavigationBarItem(label: "Profil", icon: Icon(Icons.photo)),
+          ]),
+    );
+  }
+
+  Widget gridViewWidget() {
+    return GridView.builder(
+      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: 2,
+        crossAxisSpacing: 5.0,
+        mainAxisSpacing: 10.0,
+        childAspectRatio: 4 / 2,
+      ),
+      shrinkWrap: true,
+      itemCount: choices.length,
+      itemBuilder: (BuildContext context, int index) {
+        return Container(
+          decoration: BoxDecoration(
+              border: Border.all(
+                color: Colors.blue,
+              ),
+              borderRadius: BorderRadius.all(Radius.circular(10))),
+          margin: EdgeInsets.fromLTRB(10, 5, 10, 5),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(choices[index].icon, color: Colors.blue),
+              SizedBox(
+                width: 10,
+              ),
+              Text(choices[index].title,
+                  style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.blue)),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+  Widget horizontalListView() {
+    return SingleChildScrollView(
+      physics: BouncingScrollPhysics(),
+      scrollDirection: Axis.horizontal,
+      child: FittedBox(
+        fit: BoxFit.fill,
+        alignment: Alignment.topCenter,
+        child: Row(
+          children: <Widget>[
+            Container(
+              width: 270,
+              height: 270,
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.all(Radius.circular(20.0))),
+              child: Padding(
+                padding: const EdgeInsets.all(10.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Image.asset(
+                      "assets/images/second_image.png",
+                      fit: BoxFit.cover,
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    Expanded(
+                        child: Text(
+                      "LIFESTYLE",
+                      style: TextStyle(
+                          fontSize: 15,
+                          fontWeight: FontWeight.normal,
+                          color: Colors.pink),
+                    )),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    Flexible(
+                        child: Text(
+                      "A complete guide for your new born baby",
+                      style: TextStyle(
+                          fontSize: 21,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black),
+                    )),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    Expanded(
+                        child: Text(
+                      "16 Lessons",
+                      style: TextStyle(
+                          fontSize: 15,
+                          fontWeight: FontWeight.normal,
+                          color: Colors.grey),
+                    )),
+                  ],
+                ),
+              ),
+            ),
+            Container(
+              width: 270,
+              height: 270,
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.all(Radius.circular(20.0))),
+              child: Padding(
+                padding: const EdgeInsets.all(10.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Image.asset(
+                      "assets/images/first_image.png",
+                      fit: BoxFit.cover,
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    Expanded(
+                        child: Text(
+                      "LIFESTYLE",
+                      style: TextStyle(
+                          fontSize: 15,
+                          fontWeight: FontWeight.normal,
+                          color: Colors.pink),
+                    )),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    Flexible(
+                        child: Text(
+                      "A complete guide for your new born baby",
+                      style: TextStyle(
+                          fontSize: 21,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black),
+                    )),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    Expanded(
+                        child: Text(
+                      "16 Lessons",
+                      style: TextStyle(
+                          fontSize: 15,
+                          fontWeight: FontWeight.normal,
+                          color: Colors.grey),
+                    )),
+                  ],
+                ),
+              ),
+            ),
+            Container(
+              width: 270,
+              height: 270,
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.all(Radius.circular(20.0))),
+              child: Padding(
+                padding: const EdgeInsets.all(10.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Image.asset(
+                      "assets/images/second_image.png",
+                      fit: BoxFit.cover,
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    Expanded(
+                        child: Text(
+                      "LIFESTYLE",
+                      style: TextStyle(
+                          fontSize: 15,
+                          fontWeight: FontWeight.normal,
+                          color: Colors.pink),
+                    )),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    Flexible(
+                        child: Text(
+                      "A complete guide for your new born baby",
+                      style: TextStyle(
+                          fontSize: 21,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black),
+                    )),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    Expanded(
+                        child: Text(
+                      "16 Lessons",
+                      style: TextStyle(
+                          fontSize: 15,
+                          fontWeight: FontWeight.normal,
+                          color: Colors.grey),
+                    )),
+                  ],
+                ),
+              ),
             ),
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
 }
