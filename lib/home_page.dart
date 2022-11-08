@@ -5,7 +5,7 @@ import 'package:example_app/api_parsing/lesson_api_parsing.dart';
 import 'package:example_app/api_parsing/program_api_parsing.dart';
 import 'package:example_app/login_page.dart';
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key, required this.title});
@@ -134,7 +134,7 @@ class _MyHomePageState extends State<MyHomePage> {
               ],
             ),
           ),
-          horizontalListView(),
+          //horizontalListView(),
           Container(
             alignment: Alignment.topLeft,
             margin: EdgeInsets.fromLTRB(17, 0, 17, 0),
@@ -161,7 +161,7 @@ class _MyHomePageState extends State<MyHomePage> {
               ],
             ),
           ),
-            horizontalList(),
+         //   horizontalList(),
         ]),
       ),
       bottomNavigationBar: BottomNavigationBar(

@@ -1,13 +1,8 @@
 // ignore_for_file: prefer_const_constructors
 
-import 'package:example_app/api_parsing/lesson_api_parsing.dart';
-import 'package:example_app/home_page.dart';
 import 'package:example_app/login_page.dart';
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'api_call.dart';
-
-import 'api_parsing/program_api_parsing.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 void main() {
   runApp(const MyApp());
@@ -23,8 +18,10 @@ class MyApp extends StatelessWidget {
       title: 'Flutter Demo',
       theme: ThemeData(
         primarySwatch: Colors.blue,
+        fontFamily: GoogleFonts.lato().fontFamily
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      home: const LoginPage()
+      // MyHomePage(title: 'Flutter Demo Home Page'),
     );
   }
 }
