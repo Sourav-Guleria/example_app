@@ -160,7 +160,7 @@ class _MyHomePageState extends State<MyHomePage> {
               ],
             ),
           ),
-             horizontalList(),
+            horizontalList(),
         ]),
       ),
       bottomNavigationBar: BottomNavigationBar(
@@ -207,8 +207,7 @@ class _MyHomePageState extends State<MyHomePage> {
       itemBuilder: (BuildContext context, int index) {
         return InkWell(
           onTap: () {
-            Navigator.push(
-                context, MaterialPageRoute(builder: (context) => LoginPage()));
+        
           },
           child: Container(
             decoration: BoxDecoration(
@@ -238,11 +237,9 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   Widget horizontalListView() {
-    return SizedBox(
-      height: 270,
-      child: ListView(
-        scrollDirection: Axis.horizontal,
-        shrinkWrap: true,
+    return SingleChildScrollView(
+      scrollDirection: Axis.horizontal,
+      child: Row(
         children: [
           for (int i = 0; i < (data?.items?.length ?? 0); i++)
             Container(
@@ -307,12 +304,10 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   Widget horizontalList() {
-    return SizedBox(
-      height: 270,
-      child: ListView(
-        scrollDirection: Axis.horizontal,
-        shrinkWrap: true,
-        children: <Widget>[
+    return SingleChildScrollView(
+      scrollDirection: Axis.horizontal,
+      child: Row(
+        children: [
           for (int i = 0; i < (data1?.items?.length ?? 0); i++)
             Container(
               width: 270,

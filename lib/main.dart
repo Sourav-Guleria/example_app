@@ -23,8 +23,8 @@ class MyApp extends StatelessWidget {
         fontFamily: GoogleFonts.lato().fontFamily
       ),
       home: const 
-      // HomePage()
-       MyHomePage(title: "Flutter")
+       HomePage()
+     //  MyHomePage(title: "Flutter")
       // LoginPage()
       // MyHomePage(title: 'Flutter Demo Home Page'),
     );
