@@ -1,5 +1,7 @@
 // ignore_for_file: prefer_const_constructors
 
+import 'package:example_app/home_page.dart';
+import 'package:example_app/home_page2.dart';
 import 'package:example_app/login_page.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -20,7 +22,10 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
         fontFamily: GoogleFonts.lato().fontFamily
       ),
-      home: const LoginPage()
+      home: const 
+      // HomePage()
+       MyHomePage(title: "Flutter")
+      // LoginPage()
       // MyHomePage(title: 'Flutter Demo Home Page'),
     );
   }

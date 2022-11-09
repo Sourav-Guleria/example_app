@@ -6,7 +6,6 @@ import 'package:example_app/api_parsing/program_api_parsing.dart';
 import 'package:example_app/login_page.dart';
 import 'package:flutter/material.dart';
 
-
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key, required this.title});
 
@@ -87,13 +86,13 @@ class _MyHomePageState extends State<MyHomePage> {
               crossAxisAlignment: CrossAxisAlignment.start,
               // ignore: prefer_const_literals_to_create_immutables
               children: [
-                  const Text(
-                    "Hello priya!",
-                    style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.black),
-                  ),
+                const Text(
+                  "Hello priya!",
+                  style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black),
+                ),
                 const Text(
                   "What do you wanna learn today?",
                   style: TextStyle(
@@ -134,7 +133,7 @@ class _MyHomePageState extends State<MyHomePage> {
               ],
             ),
           ),
-          //horizontalListView(),
+          horizontalListView(),
           Container(
             alignment: Alignment.topLeft,
             margin: EdgeInsets.fromLTRB(17, 0, 17, 0),
@@ -161,7 +160,7 @@ class _MyHomePageState extends State<MyHomePage> {
               ],
             ),
           ),
-         //   horizontalList(),
+             horizontalList(),
         ]),
       ),
       bottomNavigationBar: BottomNavigationBar(
@@ -171,10 +170,8 @@ class _MyHomePageState extends State<MyHomePage> {
           unselectedItemColor: Colors.grey,
           selectedFontSize: 14,
           unselectedFontSize: 14,
-          onTap: (value) {
-            // Respond to item press.
-            // ignore: prefer_const_literals_to_create_immutables
-          },
+          onTap: (value) {},
+          // ignore: prefer_const_literals_to_create_immutables
           items: [
             BottomNavigationBarItem(
               label: "Home",
@@ -241,148 +238,140 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   Widget horizontalListView() {
-    return SingleChildScrollView(
-      physics: BouncingScrollPhysics(),
-      scrollDirection: Axis.horizontal,
-      child: FittedBox(
-        fit: BoxFit.fill,
-        alignment: Alignment.topCenter,
-        child: Row(
-          children: <Widget>[
-            for (int i = 0; i < (data?.items?.length ?? 0); i++)
-              Container(
-                width: 270,
-                height: 270,
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.all(Radius.circular(20.0))),
-                child: Padding(
-                  padding: const EdgeInsets.all(10.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      i % 2 == 0
-                          ? Image.asset(
-                              "assets/images/first_image.png",
-                              fit: BoxFit.cover,
-                            )
-                          : Image.asset(
-                              "assets/images/second_image.png",
-                              fit: BoxFit.cover,
-                            ),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      Expanded(
-                          child: Text(
-                        data!.items![i].category.toString(),
-                        style: TextStyle(
-                            fontSize: 15,
-                            fontWeight: FontWeight.normal,
-                            color: Colors.pink),
-                      )),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      Flexible(
-                          child: Text(
-                        data!.items![i].name.toString(),
-                        style: TextStyle(
-                            fontSize: 21,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.black),
-                      )),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      Expanded(
-                          child: Text(
-                        "${data!.items?[i].lesson} lesson",
-                        style: TextStyle(
-                            fontSize: 15,
-                            fontWeight: FontWeight.normal,
-                            color: Colors.grey),
-                      )),
-                    ],
-                  ),
+    return SizedBox(
+      height: 270,
+      child: ListView(
+        scrollDirection: Axis.horizontal,
+        shrinkWrap: true,
+        children: [
+          for (int i = 0; i < (data?.items?.length ?? 0); i++)
+            Container(
+              width: 270,
+              height: 270,
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.all(Radius.circular(20.0))),
+              child: Padding(
+                padding: const EdgeInsets.all(10.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    i % 2 == 0
+                        ? Image.asset(
+                            "assets/images/first_image.png",
+                            fit: BoxFit.cover,
+                          )
+                        : Image.asset(
+                            "assets/images/second_image.png",
+                            fit: BoxFit.cover,
+                          ),
+                    SizedBox(
+                      height: 5,
+                    ),
+                    Expanded(
+                        child: Text(
+                      data!.items![i].category.toString(),
+                      style: TextStyle(
+                          fontSize: 15,
+                          fontWeight: FontWeight.normal,
+                          color: Colors.pink),
+                    )),
+                    SizedBox(
+                      height: 5,
+                    ),
+                    Flexible(
+                        child: Text(
+                      data!.items![i].name.toString(),
+                      style: TextStyle(
+                          fontSize: 21,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black),
+                    )),
+                    SizedBox(
+                      height: 5,
+                    ),
+                    Expanded(
+                        child: Text(
+                      "${data!.items?[i].lesson} lesson",
+                      style: TextStyle(
+                          fontSize: 15,
+                          fontWeight: FontWeight.normal,
+                          color: Colors.grey),
+                    )),
+                  ],
                 ),
               ),
-          ],
-        ),
+            ),
+        ],
       ),
     );
   }
 
   Widget horizontalList() {
-    return SingleChildScrollView(
-      physics: BouncingScrollPhysics(),
-      scrollDirection: Axis.horizontal,
-      child: FittedBox(
-        fit: BoxFit.fill,
-        alignment: Alignment.topCenter,
-        child: Row(
-          children: <Widget>[
-            for (int i = 0; i < (data1?.items?.length ?? 0); i++)
-              Container(
-                width: 270,
-                height: 270,
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.all(Radius.circular(20.0))),
-                child: Padding(
-                  padding: const EdgeInsets.all(10.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      i % 2 == 0
-                          ? Image.asset(
-                              "assets/images/first_image.png",
-                              fit: BoxFit.cover,
-                            )
-                          : Image.asset(
-                              "assets/images/second_image.png",
-                              fit: BoxFit.cover,
-                            ),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      Expanded(
-                          child: Text(
-                        data1!.items![i].category.toString(),
-                        style: TextStyle(
-                            fontSize: 15,
-                            fontWeight: FontWeight.normal,
-                            color: Colors.pink),
-                      )),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      Flexible(
-                          child: Text(
-                        data1!.items![i].name.toString(),
-                        style: TextStyle(
-                            fontSize: 21,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.black),
-                      )),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      Expanded(
-                          child: Text(
-                        "${data1!.items?[i].duration} lesson",
-                        style: TextStyle(
-                            fontSize: 15,
-                            fontWeight: FontWeight.normal,
-                            color: Colors.grey),
-                      )),
-                    ],
-                  ),
+    return SizedBox(
+      height: 270,
+      child: ListView(
+        scrollDirection: Axis.horizontal,
+        shrinkWrap: true,
+        children: <Widget>[
+          for (int i = 0; i < (data1?.items?.length ?? 0); i++)
+            Container(
+              width: 270,
+              height: 270,
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.all(Radius.circular(20.0))),
+              child: Padding(
+                padding: const EdgeInsets.all(10.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    i % 2 == 0
+                        ? Image.asset(
+                            "assets/images/first_image.png",
+                            fit: BoxFit.cover,
+                          )
+                        : Image.asset(
+                            "assets/images/second_image.png",
+                            fit: BoxFit.cover,
+                          ),
+                    SizedBox(
+                      height: 5,
+                    ),
+                    Expanded(
+                        child: Text(
+                      data1!.items![i].category.toString(),
+                      style: TextStyle(
+                          fontSize: 15,
+                          fontWeight: FontWeight.normal,
+                          color: Colors.pink),
+                    )),
+                    SizedBox(
+                      height: 5,
+                    ),
+                    Flexible(
+                        child: Text(
+                      data1!.items![i].name.toString(),
+                      style: TextStyle(
+                          fontSize: 21,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black),
+                    )),
+                    SizedBox(
+                      height: 5,
+                    ),
+                    Expanded(
+                        child: Text(
+                      "${data1!.items?[i].duration} lesson",
+                      style: TextStyle(
+                          fontSize: 15,
+                          fontWeight: FontWeight.normal,
+                          color: Colors.grey),
+                    )),
+                  ],
                 ),
               ),
-          ],
-        ),
+            ),
+        ],
       ),
     );
   }
-
-
 }
