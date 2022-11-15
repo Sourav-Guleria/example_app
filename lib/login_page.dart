@@ -8,27 +8,32 @@ class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
 
   @override
-  State<LoginPage> createState() => _LoginPageState();
+  State<LoginPage> createState() => LoginPageState();
 }
 
-class _LoginPageState extends State<LoginPage> {
+class LoginPageState extends State<LoginPage> {
   @override
+  TextEditingController nameController = TextEditingController();
+  TextEditingController paswordController = TextEditingController();
   String name = "";
   bool changedButton = false;
   final formKey = GlobalKey<FormState>();
 
   moveToHome() async {
-    if(formKey.currentState!.validate()){
-       setState(() {
-      changedButton = true;
-    });
-    await Future.delayed(Duration(seconds: 1));
-    await Navigator.push(context,
-        MaterialPageRoute(builder: (context) => MyHomePage(title: "Flutter")));
-    setState(() {
-      changedButton = false;
-    });
-    
+    if (formKey.currentState!.validate()) {
+      setState(() {
+        changedButton = true;
+        callSharedPreferences();
+      });
+      await Future.delayed(Duration(seconds: 1));
+      await Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => MyHomePage(title: "Flutter"))).then((value) => Navigator.pop(context));
+      
+      setState(() {
+        changedButton = false;
+      });
     }
   }
 
@@ -56,8 +61,9 @@ class _LoginPageState extends State<LoginPage> {
                 child: Column(
                   children: [
                     TextFormField(
+                      controller: nameController,
                       validator: (value) {
-                        if(value!.isEmpty){
+                        if (value!.isEmpty) {
                           return "Username cannot be empty";
                         }
                         return null;
@@ -72,10 +78,10 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                     TextFormField(
                       validator: (value) {
-                        if(value!.isEmpty){
+                        if (value!.isEmpty) {
                           return "Password cannot be empty";
-                        }else if(value.length<6){
-                            return "Password lenth should be 6";
+                        } else if (value.length < 6) {
+                          return "Password lenth should be 6";
                         }
                         return null;
                       },
@@ -91,8 +97,10 @@ class _LoginPageState extends State<LoginPage> {
                           BorderRadius.circular(changedButton ? 50 : 8),
                       color: Colors.blue,
                       child: InkWell(
-                        onTap:() {
-                          moveToHome();
+                        onTap: () {
+                          setState(() {
+                            moveToHome();
+                          });
                         },
                         child: AnimatedContainer(
                           alignment: Alignment.center,
@@ -126,11 +134,11 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-  Future callSharedPreferences() async {
-    SharedPreferences sp = await SharedPreferences.getInstance();
-
-    sp.setString("name", "");
-
-    // name = sp.getString("name".toString())!;
+   callSharedPreferences() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+  prefs.setString('name', nameController.text.toString());
+  print(nameController.text.toString());
   }
+
+
 }

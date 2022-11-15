@@ -4,7 +4,9 @@ import 'package:example_app/api_call.dart';
 import 'package:example_app/api_parsing/lesson_api_parsing.dart';
 import 'package:example_app/api_parsing/program_api_parsing.dart';
 import 'package:example_app/login_page.dart';
+import 'package:example_app/login_page.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key, required this.title});
@@ -31,12 +33,27 @@ const List<Choice> choices = <Choice>[
 class _MyHomePageState extends State<MyHomePage> {
   ProgramApiParsing? data;
   LessonApiParsing? data1;
-  TextEditingController nameController = TextEditingController();
-  @override
-  void initState() {
-    fetchData();
-    fetchLessonData();
+  String uName = "";
+  
 
+  @override
+
+ getStringValuesSF() async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  //Return String
+  String? stringValue = prefs.getString('name');
+  uName= stringValue!;
+}
+
+  void initState() {
+    
+    setState(() {
+      getStringValuesSF();
+      fetchData();
+    fetchLessonData();
+    print(uName);
+    });
+   
     super.initState();
   }
 
@@ -86,8 +103,8 @@ class _MyHomePageState extends State<MyHomePage> {
               crossAxisAlignment: CrossAxisAlignment.start,
               // ignore: prefer_const_literals_to_create_immutables
               children: [
-                const Text(
-                  "Hello priya!",
+                 Text(
+                  "Hello "+uName,
                   style: TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.bold,
@@ -160,7 +177,7 @@ class _MyHomePageState extends State<MyHomePage> {
               ],
             ),
           ),
-            horizontalList(),
+          horizontalList(),
         ]),
       ),
       bottomNavigationBar: BottomNavigationBar(
@@ -206,9 +223,7 @@ class _MyHomePageState extends State<MyHomePage> {
       itemCount: choices.length,
       itemBuilder: (BuildContext context, int index) {
         return InkWell(
-          onTap: () {
-        
-          },
+          onTap: () {},
           child: Container(
             decoration: BoxDecoration(
                 border: Border.all(

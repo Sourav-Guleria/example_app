@@ -3,7 +3,10 @@
 
 import 'dart:ui';
 
+import 'package:example_app/drawer.dart';
+import 'package:example_app/login_page.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_zoom_drawer/flutter_zoom_drawer.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -20,133 +23,11 @@ class _HomePageState extends State<HomePage> {
         elevation: 0,
         backgroundColor: Colors.white,
         iconTheme: IconThemeData(color: Color.fromRGBO(227, 109, 166, 1)),
-      ),
-      endDrawer: Drawer(
-        child: Container(
-          padding: EdgeInsets.all(30),
-          color: Colors.white,
-          child: ListView(
-            padding: EdgeInsets.zero,
-            // ignore: prefer_const_literals_to_create_immutables
-            children: [
-              Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  SizedBox(
-                    height: 50,
-                  ),
-                  Container(
-                    alignment: Alignment.center,
-                    child: CircleAvatar(
-                        radius: 30,
-                        backgroundImage:
-                            AssetImage("assets/images/profile_image.png")),
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  Text(
-                    "Emily Cyrus",
-                    style: TextStyle(
-                        color: Color.fromRGBO(227, 109, 166, 1),
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold),
-                  )
-                ],
-              ),
-              SizedBox(
-                height: 30,
-              ),
-              ListTile(
-                title: Text(
-                  "Home",
-                  style: TextStyle(
-                      color: Color.fromARGB(255, 4, 101, 181),
-                      fontWeight: FontWeight.w500,
-                      fontSize: 18),
-                ),
-              ),
-              Container(
-                color: Color.fromARGB(255, 243, 237, 237),
-                height: 1,
-              ),
-              ListTile(
-                title: Text(
-                  "Book A Nanny",
-                  style: TextStyle(
-                      color: Color.fromARGB(255, 4, 101, 181),
-                      fontWeight: FontWeight.w500,
-                      fontSize: 18),
-                ),
-              ),
-              Container(
-                color: Color.fromARGB(255, 243, 237, 237),
-                height: 1,
-              ),
-              ListTile(
-                title: Text(
-                  "How It Works",
-                  style: TextStyle(
-                      color: Color.fromARGB(255, 4, 101, 181),
-                      fontWeight: FontWeight.w500,
-                      fontSize: 18),
-                ),
-              ),
-              Container(
-                color: Color.fromARGB(255, 243, 237, 237),
-                height: 1,
-              ),
-              ListTile(
-                title: Text(
-                  "Why Nanny Vanny",
-                  style: TextStyle(
-                      color: Color.fromARGB(255, 4, 101, 181),
-                      fontWeight: FontWeight.w500,
-                      fontSize: 18),
-                ),
-              ),
-              Container(
-                color: Color.fromARGB(255, 243, 237, 237),
-                height: 1,
-              ),
-              ListTile(
-                title: Text(
-                  "My Bookings",
-                  style: TextStyle(
-                      color: Color.fromARGB(255, 4, 101, 181),
-                      fontWeight: FontWeight.w500,
-                      fontSize: 18),
-                ),
-              ),
-              Container(
-                color: Color.fromARGB(255, 243, 237, 237),
-                height: 1,
-              ),
-              ListTile(
-                title: Text(
-                  "My Profile",
-                  style: TextStyle(
-                      color: Color.fromARGB(255, 4, 101, 181),
-                      fontWeight: FontWeight.w500,
-                      fontSize: 18),
-                ),
-              ),
-              Container(
-                color: Color.fromARGB(255, 243, 237, 237),
-                height: 1,
-              ),
-              ListTile(
-                title: Text(
-                  "Support",
-                  style: TextStyle(
-                      color: Color.fromARGB(255, 4, 101, 181),
-                      fontWeight: FontWeight.w500,
-                      fontSize: 18),
-                ),
-              ),
-            ],
-          ),
-        ),
+        actions: [
+          IconButton(onPressed: (() {
+        ZoomDrawer.of(context)?.toggle();
+      }), icon: Icon(Icons.menu)),
+        ],
       ),
       body: SingleChildScrollView(
           child: Padding(
@@ -176,7 +57,7 @@ class _HomePageState extends State<HomePage> {
                             fontWeight: FontWeight.w700),
                       ),
                       Text(
-                        "Emily Cyrus",
+                         LoginPageState().name.toString(),
                         style: TextStyle(
                             color: Color.fromRGBO(227, 109, 166, 1),
                             fontSize: 20,
@@ -245,7 +126,7 @@ class _HomePageState extends State<HomePage> {
             ),
             Text("Your Current Booking",
                 style: TextStyle(
-                    color: Color.fromRGBO(38, 47, 113, 1),
+                    color: Color.fromARGB(255, 50, 60, 138),
                     fontSize: 20,
                     fontWeight: FontWeight.bold)),
             SizedBox(
@@ -467,10 +348,12 @@ class _HomePageState extends State<HomePage> {
             SizedBox(
               height: 10,
             ),
+            for(int i = 0 ; i<=5;i++)
             Container(
+              margin: EdgeInsets.only(bottom: 10,top: 10),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(10),
-                color: Color.fromRGBO(245, 181, 207, 1),
+                color: i%2==0? Color.fromRGBO(245, 181, 207, 1):  Color.fromRGBO(128, 171, 219, 1),
               ),
               padding: EdgeInsets.all(20),
               width: MediaQuery.of(context).size.width,
@@ -482,11 +365,11 @@ class _HomePageState extends State<HomePage> {
                     children: [
                       Icon(
                         Icons.calendar_month,
-                        color: Color.fromRGBO(227, 109, 166, 1),
+                        color:i%2==0? Color.fromRGBO(227, 109, 166, 1):Colors.white,
                       ),
                       Material(
                         borderRadius: BorderRadius.circular(15),
-                        color: Color.fromRGBO(227, 109, 166, 1),
+                        color: i%2==0? Color.fromRGBO(227, 109, 166, 1): Color.fromRGBO(0, 152, 208, 1),
                         child: InkWell(
                           onTap: () {},
                           child: AnimatedContainer(
@@ -540,235 +423,7 @@ class _HomePageState extends State<HomePage> {
                 ],
               ),
             ),
-               SizedBox(
-              height: 10,
-            ),
-            Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10),
-                color: Color.fromRGBO(128, 171, 219, 1),
-              ),
-              padding: EdgeInsets.all(20),
-              width: MediaQuery.of(context).size.width,
-              child: Column(
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    // ignore: prefer_const_literals_to_create_immutables
-                    children: [
-                      Icon(
-                        Icons.calendar_month,
-                        color: Colors.white,
-                      ),
-                      Material(
-                        borderRadius: BorderRadius.circular(15),
-                        color: Color.fromRGBO(0, 152, 208, 1),
-                        child: InkWell(
-                          onTap: () {},
-                          child: AnimatedContainer(
-                            alignment: Alignment.center,
-                            width: 100,
-                            height: 40,
-                            duration: Duration(seconds: 1),
-                            child: Text(
-                              "Book Now",
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 12),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    // ignore: prefer_const_literals_to_create_immutables
-                    children: [
-                      Text(
-                        "One Day Package",
-                        style: TextStyle(
-                            color: Color.fromRGBO(38, 47, 113, 1),
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold),
-                      ),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      Text(
-                        "RS. 2799",
-                        style: TextStyle(
-                            color: Color.fromRGBO(38, 47, 113, 1),
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold),
-                      ),
-                    ],
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  Text(
-                      "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam ")
-                ],
-              ),
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10),
-                color: Color.fromRGBO(245, 181, 207, 1),
-              ),
-              padding: EdgeInsets.all(20),
-              width: MediaQuery.of(context).size.width,
-              child: Column(
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    // ignore: prefer_const_literals_to_create_immutables
-                    children: [
-                      Icon(
-                        Icons.calendar_month,
-                        color: Color.fromRGBO(227, 109, 166, 1),
-                      ),
-                      Material(
-                        borderRadius: BorderRadius.circular(15),
-                        color: Color.fromRGBO(227, 109, 166, 1),
-                        child: InkWell(
-                          onTap: () {},
-                          child: AnimatedContainer(
-                            alignment: Alignment.center,
-                            width: 100,
-                            height: 40,
-                            duration: Duration(seconds: 1),
-                            child: Text(
-                              "Book Now",
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 12),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    // ignore: prefer_const_literals_to_create_immutables
-                    children: [
-                      Text(
-                        "One Day Package",
-                        style: TextStyle(
-                            color: Color.fromRGBO(38, 47, 113, 1),
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold),
-                      ),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      Text(
-                        "RS. 2799",
-                        style: TextStyle(
-                            color: Color.fromRGBO(38, 47, 113, 1),
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold),
-                      ),
-                    ],
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  Text(
-                      "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam ")
-                ],
-              ),
-            ),
-               SizedBox(
-              height: 10,
-            ),
-            Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10),
-                color: Color.fromRGBO(128, 171, 219, 1),
-              ),
-              padding: EdgeInsets.all(20),
-              width: MediaQuery.of(context).size.width,
-              child: Column(
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    // ignore: prefer_const_literals_to_create_immutables
-                    children: [
-                      Icon(
-                        Icons.calendar_month,
-                        color: Colors.white,
-                      ),
-                      Material(
-                        borderRadius: BorderRadius.circular(15),
-                        color: Color.fromRGBO(0, 152, 208, 1),
-                        child: InkWell(
-                          onTap: () {},
-                          child: AnimatedContainer(
-                            alignment: Alignment.center,
-                            width: 100,
-                            height: 40,
-                            duration: Duration(seconds: 1),
-                            child: Text(
-                              "Book Now",
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 12),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    // ignore: prefer_const_literals_to_create_immutables
-                    children: [
-                      Text(
-                        "One Day Package",
-                        style: TextStyle(
-                            color: Color.fromRGBO(38, 47, 113, 1),
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold),
-                      ),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      Text(
-                        "RS. 2799",
-                        style: TextStyle(
-                            color: Color.fromRGBO(38, 47, 113, 1),
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold),
-                      ),
-                    ],
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  Text(
-                      "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam ")
-                ],
-              ),
-            ),
-       
+             
           ],
         ),
       )),
