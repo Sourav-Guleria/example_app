@@ -4,10 +4,10 @@ class DrawerScreen extends StatefulWidget {
   const DrawerScreen({super.key});
 
   @override
-  State<DrawerScreen> createState() => _DrawerScreenState();
+  State<DrawerScreen> createState() => DrawerScreenState();
 }
 
-class _DrawerScreenState extends State<DrawerScreen> {
+class DrawerScreenState extends State<DrawerScreen> {
   @override
   Widget build(BuildContext context) {
     return Drawer(

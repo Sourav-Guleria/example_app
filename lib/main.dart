@@ -1,9 +1,9 @@
-// ignore_for_file: prefer_const_constructors
+  // ignore_for_file: prefer_const_constructors
 
 import 'package:example_app/drawer.dart';
-import 'package:example_app/home_page.dart';
+import 'package:example_app/home_page/home_page.dart';
 import 'package:example_app/home_page2.dart';
-import 'package:example_app/login_page.dart';
+import 'package:example_app/login_page/login_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_zoom_drawer/flutter_zoom_drawer.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -23,7 +23,7 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
             primarySwatch: Colors.blue,
             fontFamily: GoogleFonts.lato().fontFamily),
-        home: const 
+        home:  
         // ZoomDrawer(
         //   menuScreen: DrawerScreen(),
         //   mainScreen: HomePage(),
@@ -33,8 +33,8 @@ class MyApp extends StatelessWidget {
         //   menuBackgroundColor: Colors.white,
         // )
       //  HomePage()
-        // MyHomePage(title: "Flutter")
-         LoginPage()
+         MyHomePage(title: "Flutter")
+       //  LoginPage()
         // MyHomePage(title: 'Flutter Demo Home Page'),
         );
   }

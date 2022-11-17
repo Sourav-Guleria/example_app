@@ -12,9 +12,7 @@ class ProgramApiCall {
         Uri.parse('https://632017e19f82827dcf24a655.mockapi.io/api/programs');
     http.Response response = await http.get(url);
     if (response.statusCode == 200) {
-      // print(response.body);
       String data = response.body;
-      print("From same class");
       var decodedData = ProgramApiParsing.fromJson(jsonDecode(response.body));
       return decodedData;
     } else {
@@ -30,9 +28,7 @@ class LessonApiCall {
         Uri.parse('https://632017e19f82827dcf24a655.mockapi.io/api/lessons');
     http.Response response = await http.get(url);
     if (response.statusCode == 200) {
-      // print(response.body);
       String data = response.body;
-      print("From same class");
       var data1 = LessonApiParsing.fromJson(jsonDecode(response.body));
       return data1;
     } else {
